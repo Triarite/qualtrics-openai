@@ -7,35 +7,46 @@
     <link rel="stylesheet" href="">
 </head>
 <body>
-    <header>
-        <div class="logo">Vision Video</div>
-    </header>
-    <main>
-        <section class="support">
-            <h1>Support Center</h1>
-            <p>If you have any questions or need assistance, please fill out the form below or check our FAQ section.</p>
+    <div class="body">
+        <header>
+            <div class="logo">Vision Video</div>
+        </header>
+        <main>
+            <section class="support">
+                <h1>Support Center</h1>
+                <p>If you have any questions or need assistance, please fill out the form below or check our FAQ section.</p>
 
-            <h2>Frequently Asked Questions (FAQ)</h2>
-            <div class="faq">
-                <div class="faq-item">
-                    <h3>How can I reset my password?</h3>
-                    <p>Click on the "Forgot Password?" link on the sign-in page and follow the instructions to reset your password.</p>
+                <h2>Frequently Asked Questions (FAQ)</h2>
+                <div class="faq">
+                    <div class="faq-item">
+                        <h3>How can I reset my password?</h3>
+                        <p>Click on the "Forgot Password?" link on the sign-in page and follow the instructions to reset your password.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How do I cancel my subscription?</h3>
+                        <p>You can cancel your subscription anytime in your account settings under "Billing."</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>What should I do if I encounter a streaming issue?</h3>
+                        <p>If you experience streaming issues, try refreshing the page or checking your internet connection. If the problem persists, contact support.</p>
+                    </div>
                 </div>
-                <div class="faq-item">
-                    <h3>How do I cancel my subscription?</h3>
-                    <p>You can cancel your subscription anytime in your account settings under "Billing."</p>
-                </div>
-                <div class="faq-item">
-                    <h3>What should I do if I encounter a streaming issue?</h3>
-                    <p>If you experience streaming issues, try refreshing the page or checking your internet connection. If the problem persists, contact support.</p>
-                </div>
+            </section>
+            <div class="focused"></div>
+        </main>
+        <footer>
+            <p>&copy; 2024 Vision Video. All rights reserved.</p>
+        </footer>
+        <div class="unfocused"></div>
+        <div class="chat-window">
+            <h3>Support Chat</h3>
+            <div class="chat-content">
+                <p id="greeting">Welcome to Vision Video Support! How can we assist you today?</p>
             </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Vision Video. All rights reserved.</p>
-    </footer>
-    <div class="unfocused"></div>
+            <input id="message-field" type="text" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
 </body>
 </html>
 
@@ -45,17 +56,30 @@
         margin: 0;
         padding: 0;
     }
-
+    .body {
+        z-index: 15;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
     .unfocused {
-        position:fixed;
-        z-index:10;
-        top:0;
-        left:0;
-        bottom:0;
-        right:0;
-        background-color:black;
-        opacity: 0.5;
-        animation: fade 5s infinite;
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        background-color: black;
+        animation: fade 0.5s linear 0.75s normal;
+        animation-fill-mode: forwards;
+    }
+
+    .focused {
+        z-index: 15;
+        position: fixed;
     }
 
     header {
@@ -99,11 +123,163 @@
         cursor: pointer;
     }
 
+    .chat-window {
+        position: fixed;
+        bottom: 2.5%;
+        right: 1.5%;
+        font-size: 1.2rem;
+
+        width: 20%;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        z-index: 20;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .chat-window h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .chat-content {
+        max-height: 20rem;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        padding: 5px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .chat-window input[type="text"] {
+        font-size: 1.1rem;
+
+        width: calc(100% - 50px);
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 1%;
+    }
+
+    .chat-window button {
+        font-size: 1.1rem;
+
+        padding: 5px;
+        background-color: #002147;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+
     @keyframes fade {
-        50% {opacity: 0.5;}
+        0% {opacity: 0;}
+        100% {opacity: 0.75;}
     }
 </style>
 
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <script>
-    // JavaScript for form handling can be added here
+const context = 
+`
+You are a customer service chatbot for VisionVideo which is a digital streaming service that
+offers a variety of movies and TV shows.
+
+VisionVideo has been providing the highest quality and broadest selection of Movies and TV
+shows to a wide audience for over 10 years.
+
+There are 2 subscription plans. Both have recently been adjusted with price increases that may
+have customers upset and inquiring about why we raised prices and what options customers
+have if they want to change their subscription.
+
+The customer you are talking to is always someone that has the Old Standard Plan and we are
+moving them automatically to the New Standard Plan (unless they choose to cancel). You
+should always try to upsell them to the New Platinum Plan.
+
+`
+const apiKey = "";
+
+
+// Initialize the conversation array with the system message
+let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
+
+$(document).ready(function () {
+    $("#message-field").focus();
+
+    // Handle the "Send" button click
+    $("#send-button").click(sendMessage);
+
+    // Handle the "Enter" key press in the input field
+    $("#message-field").keypress(function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent the default form submission behavior
+            sendMessage();
+        }
+    });
+});
+
+// Function to send a message
+function sendMessage() {
+    const userMessage = $("#message-field").val();
+    $("#message-field").val(""); // Clear input field
+    if (!userMessage.trim()) return; // Prevent empty messages
+
+    // Display user's message
+    $(".chat-content").append(`<p><b>You: </b>${userMessage}</p>`);
+    $('.chat-content').scrollTop($('.chat-content')[0].scrollHeight);
+    $("#message-field").prop('disabled', true);
+
+    // Add user message to the conversation
+    conversation.push({ role: "user", content: userMessage });
+
+    // Fetch the assistant's response
+    getChatCompletion().then(completion => {
+        $(".chat-content").append(`<p><b>Assistant: </b>${completion}</p>`);
+        $('.chat-content').scrollTop($('.chat-content')[0].scrollHeight);
+        
+        
+        // Add the assistant's response to the conversation
+        conversation.push({ role: "assistant", content: completion });
+        $("#message-field").prop('disabled', false);
+        $("#message-field").focus();
+    }).catch(error => {
+        $(".chat-content").append(`<p><b>Assistant Error: </b>Failed to fetch response. Please try again.</p>`);
+        $("#message-field").prop('disabled', false);
+        $("#message-field").focus();
+        console.error(error);
+    });
+}
+
+// Function to make a POST request to OpenAI's API
+async function getChatCompletion() {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+            model: "gpt-4",
+            messages: conversation, // Include full conversation history
+            max_tokens: 150 // Adjust as needed for longer responses
+        })
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error ${response.status}: ${errorData.error.message}`);
+    }
+
+    const data = await response.json();
+    return data.choices[0].message.content.trim();
+}
+
 </script>
