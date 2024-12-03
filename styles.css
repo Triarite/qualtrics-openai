@@ -2,14 +2,38 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: gray;
+}
+.body {
+    z-index: 15;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.unfocused {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    background-color: black;
+    animation: fade 0.5s linear 0.75s normal;
+    animation-fill-mode: forwards;
+}
+
+.focused {
+    z-index: 15;
+    position: fixed;
 }
 
 header {
     background-color: #002147;
     color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 20px;
 }
 
@@ -18,43 +42,24 @@ header {
     font-weight: bold;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
+.support {
+    padding: 20px;
+    color: black;
 }
 
-nav a {
+.faq {
+    margin-top: 20px;
+}
+
+.faq-item {
+    margin-bottom: 15px;
+}
+
+footer {
+    background-color: #002147;
     color: white;
-    text-decoration: none;
-}
-
-.featured {
-    position: relative;
-    color: white;
-    height: 400px;
-    overflow: hidden;
-    justify-content: center;
-}
-
-.featured img {
-    width: 100%;
-    height: auto;
-}
-
-.featured-info {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
     text-align: center;
-}
-
-.featured-info h2 {
-    font-size: 36px;
-}
-
-.featured-info p {
-    margin: 10px 0;
+    padding: 10px 0;
 }
 
 button {
@@ -65,29 +70,62 @@ button {
     cursor: pointer;
 }
 
-.movie-grid {
-    padding: 20px;
+.chat-window {
+    position: fixed;
+    bottom: 2.5%;
+    right: 1.5%;
+    font-size: 1.2rem;
+
+    width: 20%;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 20;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.movie-grid h2 {
+.chat-window h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.chat-content {
+    max-height: 20rem;
+    overflow-y: auto;
     margin-bottom: 10px;
+    padding: 5px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
+.chat-window input[type="text"] {
+    font-size: 1.1rem;
+
+    width: calc(100% - 50px);
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1%;
 }
 
-.movie-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-}
+.chat-window button {
+    font-size: 1.1rem;
 
-footer {
+    padding: 5px;
     background-color: #002147;
     color: white;
-    text-align: center;
-    padding: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
 }
+
+
+@keyframes fade {
+    0% {opacity: 0;}
+    100% {opacity: 0.75;}
+}
+
