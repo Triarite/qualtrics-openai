@@ -51,9 +51,9 @@
           <mxGeometry x="730" y="300" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="h70dZAe4g8dP535I-NNz-15" value="Timeout countdown begins" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
-          <mxGeometry x="890" y="280" width="120" height="60" as="geometry" />
+          <mxGeometry x="880" y="300" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="h70dZAe4g8dP535I-NNz-18" value="User disallowed access" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="h70dZAe4g8dP535I-NNz-18" value="If any criteria fail, user access is blocked" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="730" y="180" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
