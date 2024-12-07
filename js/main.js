@@ -1,6 +1,7 @@
 // main.js
 import { fetchClientIp, context } from './api.js';
 import { sendMessage, fullDisable } from './chat.js';
+import { checkUID } from './uid.js';
 
 let apiKey = null;
 let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
