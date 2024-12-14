@@ -1,4 +1,5 @@
-async function checkUID(input_UID) {
+
+export async function checkUID(input_UID) {
     const scriptURL = "https://script.google.com/macros/s/AKfycbxCEujj9b1i7wBDFVLYy3O2P56IsY0tG0xRbPrJ4EmmUEI2JnUGzwKBM5cuF1_NdT_WDQ/exec";
     try {
         const response = await fetch(`${scriptURL}?uid=${encodeURIComponent(input_UID)}`);

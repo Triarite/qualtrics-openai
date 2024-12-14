@@ -35,12 +35,5 @@ export function sendMessage(conversation, apiKey) {
 export function fullDisable() {
     $(".chat-window").remove();
     console.log("Time elapsed, disabling...");
-    alert(`Thank you for chatting with the AI assistant. Please return to the original Qualtrics survey window.`);
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
-      }
-}
+    alert(`Thank you for chatting with the AI assistant. Please return to the original Qualtrics survey window.`)
+  }

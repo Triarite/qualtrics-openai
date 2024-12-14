@@ -12,22 +12,13 @@ $.get("key.txt", function(key) {
     console.log("API Key acquired");
 }, 'text'); // Specifies data type as text
 
+checkUID(12345);
 fetchClientIp();
 
 // Document ready function
 $(document).ready(function () {
 
     var elem = document.documentElement;
-    function openFullscreen() {
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
-        }
-    }
-    openFullscreen(); // Requests fullscreen on all browsers
 
     // Focus message input field on page load
     $("#message-field").focus();
