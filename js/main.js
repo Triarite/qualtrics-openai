@@ -6,6 +6,8 @@ import { checkUID } from './uid.js';
 let apiKey = null;
 let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
 
+
+
 // Fetch API key and client IP address
 $.get("key.txt", function(key) {
     apiKey = key;

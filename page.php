@@ -34,6 +34,15 @@
             </section>
             <div class="focused"></div>
         </main>
+
+        <div class="full-page-cover">
+        <div class="verification">
+            <p>Please enter the code you were given on Qualtrics:</p>
+            <input></input>
+            <button>Submit</button>
+        </div>
+        </div>
+
         <footer>
             <p>&copy; 2024 Vision Video. All rights reserved.</p>
         </footer>
@@ -47,6 +56,30 @@
             <button id="send-button">Send</button>
         </div>
     </div>
+
+
+<?php
+    // Database credentials
+    $servername = "localhost"; // Server name or IP
+    $username = "root";        // Default username for XAMPP
+    $password = "";            // Default password is empty
+    $dbname = "vision-video";   // Your database name
+
+    try {
+        // Create connection
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // Set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected successfully";
+    } catch (PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+
+
+    
+?>
+
+
 </body>
 </html>
 
