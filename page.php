@@ -59,21 +59,12 @@
 
 
 <?php
-    // Database credentials
-    $servername = "localhost"; // Server name or IP
-    $username = "root";        // Default username for XAMPP
-    $password = "";            // Default password is empty
-    $dbname = "vision-video";   // Your database name
 
-    try {
-        // Create connection
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // Set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connected successfully";
-    } catch (PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
-    }
+    require_once 'api/config.php';
+    require 'api/func_process_uid.php';
+
+    echo fetchAndMarkUid($conn);
+
 
 
     
