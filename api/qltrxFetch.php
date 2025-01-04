@@ -1,10 +1,8 @@
 <?php
 
-require_once 'config.php'; 
+require_once 'config.php'; // Make sure this file contains the DB connection setup
 
-// Fetch UID and mark as fetched. Used on the qualtrics end to prevent
-// UID re-use.
-
+// Function to fetch UID and mark it as fetched
 function qltrxFetch($conn) {
     // SQL query to fetch the first unused UID
     $fetchQuery = "SELECT uid FROM interactions WHERE isFetched = FALSE LIMIT 1";
@@ -50,4 +48,15 @@ function qltrxFetch($conn) {
     }
 }
 
+// Handle GET request
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Call the function to fetch UID
+    $response = qltrxFetch($conn);
+
+    // Set content type to JSON
+    header('Content-Type: application/json');
+
+    // Output the response
+    echo $response;
+}
 ?>
