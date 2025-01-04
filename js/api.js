@@ -1,5 +1,7 @@
 // api.js
 
+// This handles everything related to the OpenAI API
+
 export const context = 
 `
 You are a customer service chatbot for VisionVideo which is a digital streaming service that
@@ -17,19 +19,6 @@ moving them automatically to the New Standard Plan (unless they choose to cancel
 should always try to upsell them to the New Platinum Plan.
 
 `
-
-
-
-export async function fetchClientIp() {
-    try {
-        const response = await fetch("https://api.ipify.org?format=json");
-        const data = await response.json();
-        console.log(`Client IP address: ${data.ip}`);
-        return data.ip;
-    } catch (error) {
-        console.error("Error fetching IP address:", error);
-    }
-}
 
 export async function getChatCompletion(conversation, apiKey) {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {

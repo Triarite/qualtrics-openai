@@ -1,30 +1,47 @@
 // main.js
-import { fetchClientIp, context } from './api.js';
+import { context, getChatCompletion } from './api.js';
 import { sendMessage, fullDisable } from './chat.js';
-import { checkUID } from './uid.js';
+import { getCookie, handleSubmission } from './verification.js';
 
 let apiKey = null;
 let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
 
 
 
-// Fetch API key and client IP address
+// Fetch API key
 $.get("key.txt", function(key) {
     apiKey = key;
     console.log("API Key acquired");
 }, 'text'); // Specifies data type as text
 
-checkUID(12345);
-fetchClientIp();
 
-// Document ready function
+// On document ready...
 $(document).ready(function () {
+    if (getCookie("uid")) {
+        userVerified();
+    }
 
-    var elem = document.documentElement;
+    // Handle click event on the button
+    $('button[name="uid_submission_button"]').click(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        var uid = $('#uid_input').val();
+        if (handleSubmission(uid) == true) {
+            document.cookie = `uid=${uid}`;
+        };
+    });
 
-    // Focus message input field on page load
-    $("#message-field").focus();
+    // Handle Enter key press while the input is focused
+    $('#uid_input').keypress(function(event) {
+        if (event.which === 13) { // 13 is the Enter key
+            event.preventDefault(); // Prevent default form submission
+            var uid = $('#uid_input').val();
+            if (handleSubmission(uid) == true) {
+                document.cookie = `uid=${uid}`;
+            };
+        };
+    });
 
+    
     // Handle "Send" button click
     $("#send-button").click(() => sendMessage(conversation, apiKey));
 
@@ -36,13 +53,4 @@ $(document).ready(function () {
         }
     });
 
-    // Set a timeout for checking API response state (Optional)
-    setTimeout(function() {
-        if ($("#message-field").prop('disabled')) {
-            console.log("Message being received, waiting to disable...");
-            fullDisable();
-        } else {
-            fullDisable();
-        }
-    }, 120_000); // Timeout in ms (60_000 = 1 min)
 });

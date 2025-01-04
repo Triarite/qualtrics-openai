@@ -1,5 +1,3 @@
-// chat.js
-
 import { getChatCompletion } from "./api.js";
 
 export function sendMessage(conversation, apiKey) {

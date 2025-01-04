@@ -1,8 +1,11 @@
 <?php
 
-require_once 'config.php';
+require_once 'config.php'; 
 
-function fetchAndMarkUid($conn) {
+// Fetch UID and mark as fetched. Used on the qualtrics end to prevent
+// UID re-use.
+
+function qltrxFetch($conn) {
     // SQL query to fetch the first unused UID
     $fetchQuery = "SELECT uid FROM interactions WHERE isFetched = FALSE LIMIT 1";
     // SQL query to mark the UID as used

@@ -36,11 +36,11 @@
         </main>
 
         <div class="full-page-cover">
-        <div class="verification">
-            <p>Please enter the code you were given on Qualtrics:</p>
-            <input></input>
-            <button>Submit</button>
-        </div>
+            <div class="verification">
+                <p>Please enter the code you were given on Qualtrics:</p>
+                <input id="uid_input"></input>
+                <button name="uid_submission_button">Submit</button>
+            </div>
         </div>
 
         <footer>
@@ -61,10 +61,10 @@
 <?php
 
     require_once 'api/config.php';
-    require 'api/func_process_uid.php';
+    require 'api/populateUID.php';
+    require 'api/qltrxFetch.php';
 
-    echo fetchAndMarkUid($conn);
-
+    qltrxFetch($conn);
 
 
     
