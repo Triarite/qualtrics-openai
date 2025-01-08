@@ -35,7 +35,7 @@ export function sendMessage(conversation, apiKey) {
     });
 
 
-    window.localStorage.setItem("local-conversation", local_conversation);
+    window.localStorage.setItem("local-conversation", JSON.stringify(local_conversation));
     console.log(localStorage.getItem("local-conversation"));
 }
 

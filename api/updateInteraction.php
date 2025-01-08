@@ -6,7 +6,17 @@ require_once 'config.php';
 // unix time at completion of interaction.
 
 $uid = $_COOKIE['uid'];
+$unix_time = time();
 
-echo $uid;
+$jsonData = file_get_contents('php://input');
+$conversation = json_decode($jsonData, true); // true converts it to an associative array
+
+
+echo json_encode([
+    'uid' => $uid,
+    'unix_time' => $unix_time,
+    'conversation' => $conversation
+]);
+
 
 ?>

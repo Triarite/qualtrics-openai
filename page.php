@@ -1,6 +1,6 @@
 <?php
     require 'api/config.php';
-    echo "test";
+    require 'api/updateInteraction.php';
 ?>
 
 <!DOCTYPE html>

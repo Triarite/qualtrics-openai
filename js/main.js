@@ -1,7 +1,7 @@
 // main.js
 import { context, getChatCompletion } from './api.js';
 import { sendMessage, fullDisable } from './chat.js';
-import { getCookie, handleSubmission } from './verification.js';
+import { getCookie, handleSubmission, userVerified } from './verification.js';
 // const { convertArrayToCSV } = import('convert-array-to-csv');
 // const converter = require('convert-array-to-csv');
 
@@ -11,7 +11,7 @@ let conversation = [{ role: "system", content: context }, {role: "assistant", co
 
 
 // Fetch API key
-$.get("/secret/key.txt", function(key) {
+$.get("secret/key.txt", function(key) {
     apiKey = key;
     console.log("API Key acquired");
 }, 'text'); // Specifies data type as text
@@ -20,7 +20,7 @@ $.get("/secret/key.txt", function(key) {
 // On document ready...
 $(document).ready(function () {
     if (getCookie("uid")) {
-        userVerified();
+        console.log(getCookie("uid"));
     }
 
     // Handle click event on the button
