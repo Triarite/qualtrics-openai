@@ -1,9 +1,5 @@
 <?php
-    /*
-    require_once 'api/config.php';
-    require 'api/populateUID.php';
-    require 'api/qltrxFetch.php';
-    */
+    require 'api/config.php';
     echo "test";
 ?>
 
