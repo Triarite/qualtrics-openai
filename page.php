@@ -64,9 +64,6 @@
     require 'api/populateUID.php';
     require 'api/qltrxFetch.php';
 
-    qltrxFetch($conn);
-
-
     
 ?>
 
