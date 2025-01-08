@@ -1,5 +1,7 @@
 // api.js
 
+import { local_conversation } from "./chat.js";
+
 // This handles everything related to the OpenAI API
 
 export const context = 
@@ -40,5 +42,7 @@ export async function getChatCompletion(conversation, apiKey) {
     }
 
     const data = await response.json();
+
+    local_conversation.push(data.choices[0].message.content.trim());
     return data.choices[0].message.content.trim();
 }

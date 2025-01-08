@@ -6,7 +6,7 @@
     <title>Vision Video - Support</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body oncontextmenu="return false">
     <div class="body">
         <header>
             <div class="logo">Vision Video</div>

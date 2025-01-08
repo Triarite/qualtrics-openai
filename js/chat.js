@@ -1,4 +1,8 @@
+// Handles all JS relating to the chat box
+
 import { getChatCompletion } from "./api.js";
+
+export let local_conversation = [];
 
 export function sendMessage(conversation, apiKey) {
     const userMessage = $("#message-field").val().trim();
@@ -12,6 +16,7 @@ export function sendMessage(conversation, apiKey) {
 
     // Add user message to conversation
     conversation.push({ role: "user", content: userMessage });
+    local_conversation.push(userMessage);
 
     // Fetch the assistant's response
     getChatCompletion(conversation, apiKey).then(completion => {
@@ -28,10 +33,14 @@ export function sendMessage(conversation, apiKey) {
         $("#message-field").focus();
         console.error(error);
     });
+
+
+    window.localStorage.setItem("local-conversation", local_conversation);
+    console.log(localStorage.getItem("local-conversation"));
 }
 
 export function fullDisable() {
     $(".chat-window").remove();
     console.log("Time elapsed, disabling...");
     alert(`Thank you for chatting with the AI assistant. Please return to the original Qualtrics survey window.`)
-  }
+}

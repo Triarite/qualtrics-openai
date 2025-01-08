@@ -20,14 +20,13 @@ export function getCookie(cname) {
 export function handleSubmission(given_uid) {
     var success_state;
     $.ajax({
-        url: './api/fetchAndAssignUID.php', // Path to your PHP script
+        url: './api/fetchAndAssignUID.php', // Path to PHP script
         type: 'GET',
         data: { uid: given_uid },
-        dataType: 'json',   // Expect a JSON response
+        dataType: 'json',
         success: function (response) {
             if (response.uid) {
                 console.log('UID fetched and marked as used:', response.uid);
-                // Perform your actions here
                 success_state = true;
                 userVerified();
             } else if (response.error) {
