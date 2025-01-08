@@ -1,3 +1,12 @@
+<?php
+    /*
+    require_once 'api/config.php';
+    require 'api/populateUID.php';
+    require 'api/qltrxFetch.php';
+    */
+    echo "test";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,17 +65,6 @@
             <button id="send-button">Send</button>
         </div>
     </div>
-
-
-<?php
-
-    require_once 'api/config.php';
-    require 'api/populateUID.php';
-    require 'api/qltrxFetch.php';
-
-    
-?>
-
 
 </body>
 </html>
