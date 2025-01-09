@@ -1,5 +1,6 @@
 // This handles everything related to verifying and screening users
 
+import { getAPIKey } from "./api.js";
 import { fullDisable, waitForInputToBeEnabled } from "./chat.js";
 import { fetchAndAssignUID, sendConversationToPHP } from "./php.js";
 
@@ -58,6 +59,11 @@ export function handleSubmission(given_uid) {
 // Handles everything that happens *after* the user has been successfully verified
 export function userVerified(timeout) {
     console.log("User successfully verified. userVerified() called.")
+
+    getAPIKey(function(key) {
+        let apiKey = key;
+    });
+
     // Removes full page cover
     $(".full-page-cover").remove();
 

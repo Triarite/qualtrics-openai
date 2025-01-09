@@ -2,6 +2,7 @@
 
 import { local_conversation } from "./chat.js";
 
+
 // This handles everything related to the OpenAI API
 
 export const context = 
@@ -52,7 +53,10 @@ export async function getChatCompletion(conversation, apiKey) {
 
     const data = await response.json();
 
-    local_conversation.push(data.choices[0].message.content.trim());
+    let final_response = data.choices[0].message.content.trim()
+    let sanitized_final_response = DOMPurify.sanitize(final_response)
+
+    local_conversation.push(sanitized_final_response);
     window.localStorage.setItem("local-conversation", JSON.stringify(local_conversation));
-    return data.choices[0].message.content.trim();
+    return sanitized_final_response;
 }

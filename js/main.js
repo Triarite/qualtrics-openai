@@ -9,11 +9,10 @@ import { getCookie, handleSubmission, userVerified } from './verification.js';
 let apiKey = null;
 let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
 
+
 getAPIKey(function(key) {
     apiKey = key;
 });
-
-
 
 // On document ready...
 $(document).ready(function () {
@@ -42,12 +41,12 @@ $(document).ready(function () {
 
     
     // Handle "Send" button click
-    $("#send-button").click(() => sendMessage(DOMPurify.sanitize(conversation), apiKey));
+    $("#send-button").click(() => sendMessage(conversation, apiKey));
     // Handle "Enter" key press in input field
     $("#message-field").keypress(function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            sendMessage(DOMPurify.sanitize(conversation), apiKey);
+            sendMessage(conversation, apiKey);
         }
     });
 

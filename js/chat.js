@@ -5,7 +5,8 @@ import { getChatCompletion } from "./api.js";
 export let local_conversation = [];
 
 export function sendMessage(conversation, apiKey) {
-    const userMessage = $("#message-field").val().trim();
+    let userMessage = $("#message-field").val().trim();
+    userMessage = DOMPurify.sanitize(userMessage);
     if (!userMessage) return; // Prevent sending empty messages
 
     // Clear input and display the user's message
