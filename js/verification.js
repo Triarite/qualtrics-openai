@@ -37,7 +37,7 @@ export function handleSubmission(given_uid) {
             const success = await fetchAndAssignUID(given_uid);
             if (success) {
                 console.log('Fetch and assignment were successful.');
-                userVerified(90_000, 120_000);
+                userVerified(getRandomTimeout(90_000, 120_000));
                 return true;
             } else {
                 console.log('Fetch and assignment failed.');
@@ -60,9 +60,6 @@ export function handleSubmission(given_uid) {
 export function userVerified(timeout) {
     console.log("User successfully verified. userVerified() called.")
 
-    getAPIKey(function(key) {
-        let apiKey = key;
-    });
 
     // Removes full page cover
     $(".full-page-cover").remove();
