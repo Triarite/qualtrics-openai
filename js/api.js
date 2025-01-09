@@ -22,6 +22,14 @@ should always try to upsell them to the New Platinum Plan.
 
 `
 
+// Grabs API key from file
+export function getAPIKey(callback) {
+    $.get("./secret/key.txt", function(key) {
+        console.log("API Key acquired");
+        callback(key);
+    }, 'text'); // Specifies data type as text
+}
+
 export async function getChatCompletion(conversation, apiKey) {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -38,11 +46,13 @@ export async function getChatCompletion(conversation, apiKey) {
 
     if (!response.ok) {
         const errorData = await response.json();
+        local_conversation.push(`Error ${response.status}: ${errorData.error.message}`); // Push to 
         throw new Error(`Error ${response.status}: ${errorData.error.message}`);
     }
 
     const data = await response.json();
 
     local_conversation.push(data.choices[0].message.content.trim());
+    window.localStorage.setItem("local-conversation", JSON.stringify(local_conversation));
     return data.choices[0].message.content.trim();
 }

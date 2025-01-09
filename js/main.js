@@ -1,5 +1,5 @@
 // main.js
-import { context, getChatCompletion } from './api.js';
+import { context, getChatCompletion, getAPIKey } from './api.js';
 import { sendMessage, fullDisable } from './chat.js';
 import { getCookie, handleSubmission, userVerified } from './verification.js';
 // const { convertArrayToCSV } = import('convert-array-to-csv');
@@ -9,12 +9,10 @@ import { getCookie, handleSubmission, userVerified } from './verification.js';
 let apiKey = null;
 let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
 
-
-// Fetch API key
-$.get("secret/key.txt", function(key) {
+getAPIKey(function(key) {
     apiKey = key;
-    console.log("API Key acquired");
-}, 'text'); // Specifies data type as text
+});
+
 
 
 // On document ready...
@@ -44,12 +42,12 @@ $(document).ready(function () {
 
     
     // Handle "Send" button click
-    $("#send-button").click(() => sendMessage(conversation, apiKey));
+    $("#send-button").click(() => sendMessage(DOMPurify.sanitize(conversation), apiKey));
     // Handle "Enter" key press in input field
     $("#message-field").keypress(function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            sendMessage(conversation, apiKey);
+            sendMessage(DOMPurify.sanitize(conversation), apiKey);
         }
     });
 

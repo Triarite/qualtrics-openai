@@ -2,6 +2,9 @@
 
 require_once 'config.php'; // Make sure this file contains the DB connection setup
 
+// Used as an API call on the Qualtrics end to fetch the next
+// available UID and mark it as fetched (isFetched = 1)
+
 // Function to fetch UID and mark it as fetched
 function qltrxFetch($conn) {
     // SQL query to fetch the first unused UID

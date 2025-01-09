@@ -20,7 +20,7 @@ export function sendMessage(conversation, apiKey) {
 
     // Fetch the assistant's response
     getChatCompletion(conversation, apiKey).then(completion => {
-        $(".chat-content").append(`<p><b>Assistant: </b>${completion}</p>`);
+        $(".chat-content").append(DOMPurify.sanitize(`<p><b>Assistant: </b>${completion}</p>`));
         $('.chat-content').scrollTop($('.chat-content')[0].scrollHeight);
 
         // Add assistant's response to conversation
@@ -28,7 +28,7 @@ export function sendMessage(conversation, apiKey) {
         $("#message-field").prop('disabled', false);
         $("#message-field").focus();
     }).catch(error => {
-        $(".chat-content").append(`<p><b>Assistant Error: </b>Failed to fetch response. Please try again.</p>`);
+        $(".chat-content").append(DOMPurify.sanitize(`<p><b>Assistant Error: </b>Failed to fetch response. Please try again.</p>`));
         $("#message-field").prop('disabled', false);
         $("#message-field").focus();
         console.error(error);
@@ -36,7 +36,6 @@ export function sendMessage(conversation, apiKey) {
 
 
     window.localStorage.setItem("local-conversation", JSON.stringify(local_conversation));
-    console.log(localStorage.getItem("local-conversation"));
 }
 
 export function fullDisable() {
@@ -44,3 +43,12 @@ export function fullDisable() {
     console.log("Time elapsed, disabling...");
     alert(`Thank you for chatting with the AI assistant. Please return to the original Qualtrics survey window.`)
 }
+
+export function waitForInputToBeEnabled(inputElement, callback, checkInterval = 100) {
+    const interval = setInterval(() => {
+      if (!inputElement.disabled) {
+        clearInterval(interval);
+        callback();
+      }
+    }, checkInterval);
+  }

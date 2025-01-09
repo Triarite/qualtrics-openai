@@ -1,6 +1,5 @@
 <?php
     require 'api/config.php';
-    require 'api/updateInteraction.php';
 ?>
 
 <!DOCTYPE html>
@@ -66,4 +65,5 @@
 </html>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
 <script type="module" src="./js/main.js"></script>

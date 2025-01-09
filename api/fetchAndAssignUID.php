@@ -1,6 +1,9 @@
 <?php
 
-require_once 'config.php';  // Include the database connection
+require_once 'config.php';
+
+// File that is called to grab a UID that has been fetched Qualtrics-side,
+// but not yet assigned to a conversation.
 
 // Check if the UID is provided in the request
 if (!isset($_GET['uid']) || empty($_GET['uid'])) {

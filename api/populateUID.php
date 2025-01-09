@@ -2,27 +2,32 @@
 
 require_once 'config.php';
 
-// Populates MySQL database with 10,000 UIDs to be used.
+// Populates MySQL database with 10,000 new UIDs
 // !!! WARNING: OVERWRITES *ALL* DATA !!! //
-
-// To prevent accidental usage, takes "passkey" as argument which must be equal to "overwrite"
+// ^^ To prevent accidental usage, takes "passkey" as argument which must be equal to "overwrite" ^^ //
 
 
 function populateUID(PDO $conn, $passkey): void {
+    // Columns Config
+    $isFetched = 0;
+    $isAssigned = 0;
+    $unixtime = 0;
+    $conversation = '';
+
+
+
     if ($passkey == "overwrite") {
         try {
             // Clear existing data
             $sqlClear = "TRUNCATE TABLE interactions";
             $conn->exec($sqlClear); // Use exec for non-prepared statements
     
-            // Prepare the insert statement with a named placeholder
-            $stmt = $conn->prepare("INSERT INTO interactions (uid, isFetched, isAssigned, `unix-time`, conversation) VALUES (:uid, 0, 0, 0, '')");
+            $stmt = $conn->prepare("INSERT INTO interactions (uid, isFetched, isAssigned, `unix-time`, conversation) VALUES (:uid, $isFetched, $isAssigned, $unixtime, $conversation)");
     
             // Begin transaction
             $conn->beginTransaction();
     
-            // Insert 10,000 records
-            for ($i = 34971; $i < 44971; $i++) { // Loop for 10,000 records, using random numbers to reduce UID guessability
+            for ($i = 34971; $i < 44971; $i++) { // Loop for 10,000 records, using random-ish numbers to reduce UID guessability
                 $stmt->bindValue(':uid', $i, PDO::PARAM_INT); // Bind the UID to the named placeholder
                 $stmt->execute(); // Execute the statement
             }

@@ -1,6 +1,7 @@
 // This handles everything related to verifying and screening users
 
-import { fullDisable } from "./chat.js";
+import { fullDisable, waitForInputToBeEnabled } from "./chat.js";
+import { fetchAndAssignUID, sendConversationToPHP } from "./php.js";
 
 export function getCookie(cname) {
     let name = cname + "=";
@@ -17,39 +18,41 @@ export function getCookie(cname) {
     return "";
 }
 
-export function handleSubmission(given_uid) {
-    var success_state;
+function getRandomTimeout(min, max) {
+        let randomTimeout = Math.floor(Math.random() * (max - min + 1) + min);
+        console.log(`Time Allotted: ${randomTimeout / 1000}`);
+        return randomTimeout;
+}
 
-    if(given_uid == 2004) {
-        success_state = true;
-        userVerified(5000);
-        return success_state;
+export function handleSubmission(given_uid) {
+    //! Remove this block when done
+    if(given_uid == 2004) { // Uses "secret" passcode for testing purposes.
+        userVerified(getRandomTimeout(5_000, 12_000));
+        return true;
     };
 
-    $.ajax({
-        url: './api/fetchAndAssignUID.php', // Path to PHP script
-        type: 'GET',
-        data: { uid: given_uid },
-        dataType: 'json',
-        success: function (response) {
-            if (response.uid) {
-                console.log('UID fetched and marked as used:', response.uid);
-                success_state = true;
-                userVerified(120_000);
-            } else if (response.error) {
-                console.error('Error:', response.error);
-                alert("Invalid UID. Please double-check and try again.")
-                success_state = false;
+    async function handleFetchUID() {
+        try {
+            const success = await fetchAndAssignUID(given_uid);
+            if (success) {
+                console.log('Fetch and assignment were successful.');
+                userVerified(90_000, 120_000);
+                return true;
+            } else {
+                console.log('Fetch and assignment failed.');
+                return false;
             }
-        },
-        error: function (xhr, status, error) {
-            // Handle AJAX errors
-            console.error('AJAX Error:', error);
-            success_state = false;
+        } catch (error) {
+            console.error('An error occurred during fetch:', error);
+            return false;
         }
-    });
+    }
 
-    return success_state;
+    if(handleFetchUID()) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // Handles everything that happens *after* the user has been successfully verified
@@ -61,16 +64,22 @@ export function userVerified(timeout) {
     // Focus message input field on page load
     $("#message-field").focus();
 
-    // Set a timeout for checking API response state (Optional)
+    
     setTimeout(function() {
-        if ($("#message-field").prop('disabled')) {
+        const inputElement = document.querySelector('#message-field');
+
+        if (inputElement.disabled) {
             console.log("Message being received, waiting to disable...");
-            fullDisable();
+            waitForInputToBeEnabled(inputElement, () => {
+                console.log('Input is now enabled! Performing action...');
+                fullDisable();
+                deleteCookieUID();
+                sendConversationToPHP();
+              });
         } else {
-            deleteCookieUID();
             fullDisable();
+            deleteCookieUID();
             sendConversationToPHP();
-            sendPHPPostReq();
         }
     }, timeout); // Timeout in ms (60_000 = 1 min)
 
@@ -80,51 +89,4 @@ export function userVerified(timeout) {
 function deleteCookieUID() {
     // Erases cookie by setting expiry to a past date
     document.cookie = "uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
-
-function sendConversationToPHP() {
-    // Retrieve the array from localStorage
-    const conversation = JSON.parse(localStorage.getItem('local-conversation'));
-
-    // Check if the conversation array exists
-    if (conversation) {
-        // Create a POST request using fetch
-        fetch('api/updateInteraction.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(conversation) // Convert the array to a JSON string before sending
-        })
-        .then(response => response.json()) // Parse the response as JSON
-        .then(data => {
-            console.log('Conversation stored successfully:', data);
-        })
-        .catch(error => {
-            console.error('Error sending conversation:', error);
-        });
-    } else {
-        console.log('No conversation data found in localStorage.');
-    }
-
-}
-
-function sendPHPPostReq() {
-    fetch('api/updateInteraction.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())  // Parsing the JSON response from the server
-    .then(data => {
-        // Handle the response from PHP
-        console.log("UID:", data.uid);
-        console.log("Unix Time:", data.unix_time);
-        console.log("Conversation:", data.conversation);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-    
 }
