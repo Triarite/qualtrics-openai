@@ -33,10 +33,12 @@ try {
         'conversation' => $conversation
     ]);
 } catch (PDOException $e) {
+    /*
     echo json_encode([
         'status' => 'error',
         'message' => 'Failed to update the database: ' . $e->getMessage()
     ]);
+    */
 }
 
 ?>

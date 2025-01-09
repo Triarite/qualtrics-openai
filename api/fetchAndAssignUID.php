@@ -54,6 +54,6 @@ try {
 } catch (Exception $e) {
     // Roll back the transaction in case of error
     $conn->rollBack();
-    echo json_encode(["error" => "Error processing request: " . $e->getMessage()]);
+    // echo json_encode(["error" => "Error processing request: " . $e->getMessage()]);
 }
 ?>
