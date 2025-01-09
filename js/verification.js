@@ -28,7 +28,7 @@ function getRandomTimeout(min, max) {
 export function handleSubmission(given_uid) {
     //! Remove this block when done
     if(given_uid == 2004) { // Uses "secret" passcode for testing purposes.
-        userVerified(getRandomTimeout(5_000, 12_000));
+        userVerified(getRandomTimeout(60_000, 120_000));
         return true;
     };
 

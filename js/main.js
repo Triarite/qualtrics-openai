@@ -1,10 +1,12 @@
 // main.js
-import { context, getChatCompletion, getAPIKey } from './api.js';
+import { getChatCompletion, getAPIKey } from './api.js';
 import { sendMessage, fullDisable } from './chat.js';
 import { getCookie, handleSubmission, userVerified } from './verification.js';
+import { formal, neutral, informal } from './contexts.js';
 // const { convertArrayToCSV } = import('convert-array-to-csv');
 // const converter = require('convert-array-to-csv');
 
+const context = formal;
 
 let apiKey = null;
 let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
