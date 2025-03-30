@@ -4,7 +4,7 @@ require_once 'config.php';
 
 // Populates MySQL database with 10,000 new UIDs
 // !!! WARNING: OVERWRITES *ALL* DATA !!! //
-// ^^ To prevent accidental usage, takes "passkey" as argument which must be equal to "overwrite" ^^ //
+// ^^ To prevent accidental usage, takes "passkey" variable as argument which must be equal to "overwrite" ^^ //
 
 
 function populateUID(PDO $conn, $passkey): void {

@@ -1,16 +1,18 @@
 // main.js
-import { getChatCompletion, getAPIKey } from './api.js';
-import { sendMessage, fullDisable } from './chat.js';
-import { getCookie, handleSubmission, userVerified } from './verification.js';
-import { formal, neutral, informal } from './contexts.js';
+import { getAPIKey } from '/vision-video/js/api.js';
+import { sendMessage, fullDisable } from '/vision-video/js/chat.js';
+import { getCookie, handleSubmission, userVerified } from '/vision-video/js/verification.js';
+import { formal, neutral, informal } from '/vision-video/js/contexts.js';
 // const { convertArrayToCSV } = import('convert-array-to-csv');
 // const converter = require('convert-array-to-csv');
-
-const context = formal;
-
+let conversation = null;
+let context = null;
+let isSandboxMode = false;
 let apiKey = null;
-let conversation = [{ role: "system", content: context }, {role: "assistant", content: $("#greeting").text()}];
+const url = (window.location.href).toLowerCase();
 
+// Checks formalities to adjust context
+formalityCheck(url)
 
 getAPIKey(function(key) {
     apiKey = key;
@@ -21,6 +23,8 @@ $(document).ready(function () {
     if (getCookie("uid")) {
         console.log(getCookie("uid"));
     }
+
+    $('uid_input').focus();
 
     // Handle click event on the button
     $('button[name="uid_submission_button"]').click(function(event) {
@@ -43,15 +47,17 @@ $(document).ready(function () {
 
     
     // Handle "Send" button click
-    $("#send-button").click(() => sendMessage(conversation, apiKey));
+    $("#send-button").click(function(event) {
+        event.preventDefault();
+        sendMessage(conversation, apiKey);
+    })
     // Handle "Enter" key press in input field
-    $("#message-field").keypress(function (event) {
+    $("#message-field").keypress(function(event) {
         if (event.key === "Enter") {
             event.preventDefault();
             sendMessage(conversation, apiKey);
         }
     });
-
 });
 
 
@@ -74,3 +80,31 @@ document.onkeydown = (e) => {
         e.preventDefault();
     }
 };
+
+
+function formalityCheck(url) {
+    if(url.includes("1nf")) { // Informal URL
+        context = informal;
+    } else if(url.includes("f0r")) { // Formal URL
+        context = formal;
+    } else if(url.includes("n3u")) { // Neutral URL
+        context = neutral;
+    } else if(url.includes("sandbox")) { // Sandbox mode
+        isSandboxMode = true;
+        $("#contextButton").click(function() {
+            context = $("#context").val()
+            conversation = [{ role: "developer", content: context }, {role: "assistant", content: $("#greeting").text()}];
+            $("#context").remove()
+            $("#contextButton").remove()
+            });
+    } else { // No formality code in URL... defaulting to neutral
+        console.error("Warning: Formality code NOT found in URL. Defaulting to neutral...")
+        context = neutral;
+    }
+
+    if (isSandboxMode == false) {
+        conversation = [{ role: "developer", content: context }, {role: "assistant", content: $("#greeting").text()}];
+    } else {
+        conversation = [{ role: "developer", content: " " }, {role: "assistant", content: $("#greeting").text()}];
+    }
+}

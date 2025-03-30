@@ -11,7 +11,7 @@ export function sendMessage(conversation, apiKey) {
 
     // Clear input and display the user's message
     $("#message-field").val("");
-    $(".chat-content").append(`<p><b>You: </b>${userMessage}</p>`);
+    $(".chat-content").append(`<p class="user-txt text-end"><b>You: </b>${userMessage}</p>`);
     $('.chat-content').scrollTop($('.chat-content')[0].scrollHeight);
     $("#message-field").prop('disabled', true);
 
@@ -21,7 +21,7 @@ export function sendMessage(conversation, apiKey) {
 
     // Fetch the assistant's response
     getChatCompletion(conversation, apiKey).then(completion => {
-        $(".chat-content").append(DOMPurify.sanitize(`<p><b>Assistant: </b>${completion}</p>`));
+        $(".chat-content").append(DOMPurify.sanitize(`<p class="assistant-txt"><b>Assistant: </b>${completion}</p>`));
         $('.chat-content').scrollTop($('.chat-content')[0].scrollHeight);
 
         // Add assistant's response to conversation
@@ -29,7 +29,7 @@ export function sendMessage(conversation, apiKey) {
         $("#message-field").prop('disabled', false);
         $("#message-field").focus();
     }).catch(error => {
-        $(".chat-content").append(DOMPurify.sanitize(`<p><b>Assistant Error: </b>Failed to fetch response. Please try again.</p>`));
+        $(".chat-content").append(DOMPurify.sanitize(`<p class="assistant-txt"><b>Assistant Error: </b>Failed to fetch response. Please try again.</p>`));
         $("#message-field").prop('disabled', false);
         $("#message-field").focus();
         console.error(error);

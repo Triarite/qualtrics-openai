@@ -2,12 +2,13 @@
 
 import { local_conversation } from "./chat.js";
 
+// * Clean! * //
 
 // This handles everything related to the OpenAI API
 
 // Grabs API key from file
 export function getAPIKey(callback) {
-    $.get("./secret/key.txt", function(key) {
+    $.get("/vision-video/secret/key.txt", function(key) {
         console.log("API Key acquired");
         callback(key);
     }, 'text'); // Specifies data type as text
@@ -21,7 +22,7 @@ export async function getChatCompletion(conversation, apiKey) {
             "Authorization": `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-            model: "gpt-4",
+            model: "gpt-4o",
             messages: conversation, // Include full conversation history
             max_tokens: 200
         })
